@@ -37,7 +37,7 @@ int main() {
         }
     }
     start = 0;
-    for (int i = 0; i <= maxvert; i++) {
+    for (int i = maxvert; i >= 0; i--) {
         if (i == lightshor[start]) {
             if (i > 0) ver[i] = max(ver[i-1], lightshor[start]);
             else ver[i] = lightshor[start];
@@ -46,9 +46,6 @@ int main() {
         else {
             if (i > 0) ver[i] = max(ver[i], ver[i-1]);
         }
-    }
-    for (int i = 0; i <= maxvert; i++) {
-        debug(hor[i]);
     }
     // ver should store the distance to closest horizontal free state
     // for each robber, check the horizontal and vertical minimum
