@@ -30,9 +30,10 @@ int32_t main() {
     int current = 0;
     dfs(0);
     for (int i = 0; i < n; i++) {
-        debug(cnt[i]);
+        printf("%lld ", i+1); debug(cnt[i]);
     }
     while ((int)adj[current].size() > 0) {
+        // fix the damn algorithm, then get some practice in
         int temp = adj[current].size();
         int m = cnt[adj[current][0]];
         int mincity = adj[current][0];
@@ -49,10 +50,13 @@ int32_t main() {
             }
         }
         cnt[mincity] += count[current] / temp;
+        debug(cnt[mincity]);
         if (mincity != maxcity) cnt[maxcity] += count[current] / temp;
         if (cnt[current] % temp != 0) cnt[mincity]++;
         if (cnt[mincity] > cnt[maxcity]) current = mincity;
         else current = maxcity;
+        debug(current);
+        debug(cnt[current]);
     }
     printf("%lld\n", cnt[current]);
 }

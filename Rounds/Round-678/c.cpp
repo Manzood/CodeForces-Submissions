@@ -9,37 +9,27 @@ int32_t main() {
     int n, x, pos;
     scanf("%lld%lld%lld", &n, &x, &pos);
     int remaining = n;
-    long long ans = 1;
+    int ans = 1;
     int numgreater = n-x;
     int numless = x-1;
-    int left = 0, right = n;
-    int mid = (left + right) / 2;
-    vector <int> calc(n, -1);
-    bool found = false;
+    int left = 0;
+    int right = n;
     while (left < right) {
-        mid = (left + right) / 2;
+        int mid = (left + right) / 2;
         if (mid < pos) {
-            if (!found) calc[mid-1] = numgreater;
+            ans *= numless--;
             left = mid+1;
         } else if (mid > pos) {
-            if (!found) calc[mid-1] = numless;
+            ans *= numgreater--;
             right = mid;
         } else {
-            calc[mid-1] = 1;
-            left = mid+1;
-            found = true;
-            remaining--;
+            left = mid+1; 
         }
-        if (!found) remaining--;
+        remaining--;
+        ans %= mod;
     }
-    if (!(left > 0 && left - 1 == pos))
-        ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (calc[i] == -1) {
-            ans *= remaining--;
-        } else {
-            ans *= calc[i];
-        }
+    for (int i = remaining; i > 0; i--) {
+        ans *= i;
         ans %= mod;
     }
     printf("%lld\n", ans);
