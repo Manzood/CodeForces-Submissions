@@ -47,6 +47,7 @@ int32_t main() {
     // dfs 1: find the number of leaves for each node, 
     // still in dfs 1, it may be possible to backtrack and find the (minimum of) maxinum value for each while keeping track of required
     // since it's a tree that only points in one direction, there is no need to keep track of what nodes we've visited
+    // edit: only one dfs was required, since all I had to do was place things correctly and backtrack
     int n;
     cin >> n;
     cnt.resize(n);
