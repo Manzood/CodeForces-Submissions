@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     printf("\n");
     for (int i = 0; i < n; i++) {
         int x;
-        x = rand(1, 20);
+        x = rand(1, 9);
         printf("%d ", x);
     }
 	puts("");
