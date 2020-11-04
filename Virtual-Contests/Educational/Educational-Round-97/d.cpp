@@ -20,9 +20,10 @@ int main() {
         for (int i = 2; i < n; i++) {
             if (a[i] < a[i-1]) {
                 --remaining[current];
+                if (remaining[current]) ++remaining[ind];
                 if (remaining[current] == 0) {
                     ++current;
-                    height++;
+                    ++height;
                     ++ind;
                     if (ind == (int)remaining.size()) remaining.push_back(1); 
                 }
