@@ -8,7 +8,7 @@ int main() {
     while (t--) {
         int n;
         scanf("%d", &n);
-        vector <int> a(n);
+        vector <int> a(n); 
         vector <bool> check(n+1, false);
         for (int i = 0; i < n; i++) {
             scanf("%d", a[i]);
