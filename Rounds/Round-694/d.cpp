@@ -1,64 +1,67 @@
 #include "bits/stdc++.h"
 using namespace std;
-#define debug(x) cout<<#x<<" = "<<x<<endl;
+#define debug(x) cout << #x << " = " << x << endl;
+#define int long long
 
-// remove all even occurances of prime factors, to make things easier?
-// everything else is necessary
-// reduce everything to the bare essence and then use a set?
-
-map <int, int> mp;
-void primeFactors(int n) {
-    int val = 1;
-    int count = 0;
-    // if (n % 2 == 0) val *= 2;
-    while (n % 2 == 0) {
-        count++;
-        if (count % 2 == 0) val /= 2;
-        else val *= 2;
-        n = n / 2;
-    }  
-    for (int i = 3; i <= sqrt(n); i = i + 2) {
-        count = 0;
-        // if (n % i == 0) val *= i;
-        while (n % i == 0) {
-            count++;
-            if (count % 2 == 0) val /= i;
-            else val *= i;
-            n = n / i;
+long long factorize (int num) {
+    int p = 2;
+    int retval = 1;
+    while (p * p <= num) {
+        int cnt = 0;
+        while (num % p == 0) {
+            cnt++;
+            num /= p;
         }
+        cnt %= 2;
+        if (cnt) retval *= p;
+        if (p % 2 == 0) p++;
+        else p += 2;
     }
-    if (n > 2) {
-        val *= n;
+    if (num) {
+        retval *= num;
     }
-    mp[val]++;
+    return retval;
 }
 
-int main() {
+int32_t main () {
     int t;
     cin >> t;
     while (t--) {
-        int n;
-        scanf("%d", &n);
-        // for (auto &x: mp) {
-            // x.second = 0;
-        // }
-        mp.clear();
+        int n; scanf("%lld", &n);
         vector <int> a(n);
         for (int i = 0; i < n; i++) {
-            scanf("%d", &a[i]);
-            primeFactors(a[i]);
+            scanf("%lld", &a[i]);
+            a[i] = factorize(a[i]);
         }
-        int ans = 0;
-        int final = 1;
-        for (auto x: mp) {
-            ans = max(x.second, ans);
-            final *= x.second;
+        sort (a.begin(), a.end());
+        int initial = 1;
+        int cnt = 1;
+        int fin = 0;
+        for (int i = 1; i < n; i++) {
+            if (a[i] == a[i-1]) {
+                cnt++;
+            } else {
+                if (cnt % 2 == 0 || a[i-1] == 1) {
+                    fin += cnt;
+                }
+                cnt = 1;
+            }
+            if (i == n-1) {
+                if (cnt % 2 == 0 || a[i] == 1) {
+                    fin += cnt;
+                }
+            }
+            initial = max(cnt, initial);
         }
-        int q; scanf("%d", &q);
+        fin = max(initial, fin);
+        int q; scanf("%lld", &q);
         for (int i = 0; i < q; i++) {
-            int w; scanf("%d", &w);
-            if (w == 0) printf ("%d\n", ans);
-            else printf("%d\n", final);
+            int w; scanf("%lld", &w);
+            if (w == 0) {
+                printf("%lld\n", initial);
+            } else {
+                printf("%lld\n", fin);
+            }
         }
     }
 }
