@@ -2,7 +2,7 @@
 using namespace std;
 #define debug(x) cout << #x << " = " << x << endl;
 #define int long long
-// here, a multiset had better performance than a set and a map, which makes sense
+// slower, but correct code
 
 int32_t main () {
     int t;
@@ -21,9 +21,11 @@ int32_t main () {
         for (int i = 0; i < n - 1; i++) {
             ans.resize(0);
             int x = a[n-1];
-            multiset <int> s;
+            map <int, int> mp;
+            set <int> s;
             for (int j = 0; j < n - 1; j++) {
                 if (j == i) continue;
+                mp[a[j]]++;
                 s.insert(a[j]);
             }
             ans.push_back(a[i]);
@@ -32,16 +34,26 @@ int32_t main () {
             bool found = true;
             while (cnt && found) {
                 int mx = *s.rbegin();
-                s.erase(s.find(mx));
-                if (s.find(x - mx) == s.end()) {
+                int temp = mp[x - mx];
+                if (!mp[x - mx]) {
                     found = false;
-                    break;
+                } else {
+                    temp--;
+                    if (temp == 0) {
+                        s.erase(x - mx);
+                    }
+                    if (mp[mx] == 0) {
+                        found = false;
+                        break;
+                    }
+                    if (--mp[mx] == 0) {
+                        s.erase(mx);
+                    }
+                    ans.push_back(x - mx);
+                    ans.push_back(mx);
+                    x = mx;
+                    cnt -= 2;
                 }
-                s.erase(s.find(x - mx));
-                ans.push_back(x - mx);
-                ans.push_back(mx);
-                x = mx;
-                cnt -= 2;
             }
             if (found) {
                 possible = true;
