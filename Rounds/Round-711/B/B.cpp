@@ -27,47 +27,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
-        int n, w;
-        scanf("%lld%lld", &n, &w);
-        vector <int> a(n);
-        vector <int> b(32);
+        int n, W;
+        scanf("%lld%lld", &n, &W);
+        vector <int> a(n), w(25, 0);
         for (int i = 0; i < n; i++) {
             scanf("%lld", &a[i]);
-            for (int j = 0; j < 32; j++) {
-                if ((1LL << j) & a[i]) {
-                    b[j]++;
-                    break;
+            for (int j = 0; (1LL << j) <= a[i]; j++) {
+                if ((1LL << j) == a[i]) {
+                    w[j]++;
                 }
             }
         }
-        int ans = 0;
-        int last = 0;
-        for (int i = 0; i < 32; i++) {
-            if (w & (1LL << i)) last = i;
-        }
-        bool found = false;
-        while (!found) {
-            int p = last;
-            for (int i = last - 1; i >= 0; i--) {
-                if (b[i] < b[p]) continue;
-                else {
-                    int num = b[i];
-                    for (int j = i + 1; j <= p; j++) {
-                        int c = num % 2;
-                        num /= 2;
-                        num += c;
-                    }
-                    b[p] += num;
-                    b[i] = b[i] % 2;
+        int cnt = n;
+        int cur = W;
+        int ans = 1;
+        while (cnt) {
+            // debug(cur);
+            // debug(ans);
+            int ind = -1;
+            for (int i = 0; i < 25; i++) {
+                if (w[i] && (1 << i) <= cur) {
+                    ind = i;
                 }
             }
-            bool check = true;
-            for (int i = last - 1; i >= 0; i--) {
-                if (b[i] > b[last]) check =false;
+            if (ind == -1) {
+                ans++;
+                cur = W;
+            } else {
+                cur -= (1LL << ind);
+                cnt--;
+                w[ind]--;
             }
-            found = check;
         }
-        ans = b[last];
         printf("%lld\n", ans);
     }
 }
