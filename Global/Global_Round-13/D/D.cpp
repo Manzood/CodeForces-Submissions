@@ -1,4 +1,5 @@
 #include "bits/stdc++.h"
+#include <string>
 using namespace std;
 #define debug(x) cout << #x << " = " << x << endl;
 #define int long long

@@ -9,4 +9,12 @@ int main() {
         a.insert(5);
     }
     cout << a.count(5) << endl;
+	b.push_back(1);
+	map <int, int> mp;
+    vector <int> a(n);
+    // there's errors?
+    string s;
+    cin >> s;
+    printf("%d", s);
+    the lsp does nothing here?
 }

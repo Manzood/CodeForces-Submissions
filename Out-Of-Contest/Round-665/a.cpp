@@ -1,21 +1,29 @@
-#include<bits/stdc++.h>
+#include"bits/stdc++.h"
 using namespace std;
 #define debug(x) cout<<#x<<" = "<<x<<endl;
-#define sz(x) (int) (x).size()
+#define int long long
 
-int main() {
+int32_t main() {
     int t = 1;
     cin >> t;
     while (t--) {
         int n, k;
-        scanf("%d%d", &n, &k);
+        scanf("%lld%lld", &n, &k);
+        // move to the closest odd multiple of k
         int ans = 0;
-        if (n < k) {
-            ans = k - n;
+        if (k > 0) {
+            ans += n % k;
+            n -= n % k;
+            if ((n / k) % 2 != 1) {
+                ans = k - ans;
+                n += k;
+                // ans += k;
+            }
+        } else {
+            if (n % 2 == 1) {
+                ans++;
+            }
         }
-        else if (k == 0) {
-            if (n & 1) ans = 1;
-        }
-        printf("%d\n", ans);
+        printf("%lld\n", ans);
     }
 }
