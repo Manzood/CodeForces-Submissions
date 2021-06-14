@@ -6,56 +6,59 @@ using namespace std;
 int32_t main() {
     int n;
     cin >> n;
+    int q = 1;
+    cout << "? " << q << endl;
+    vector <int> dist(n);
     vector <bool> marked(n, false);
+    marked[0] = true;
+    int oddcnt = 0;
+    int evencnt = 0;
     vector <vector <int>> adj(n);
-    int last = 0;
-    int mx = -1;
-    // find the ones with the least count, and mark those
-    int found = 0;
-    for (int i = 0; i < n && found < n - 1; i++) {
-        if (last != -1) {
-            marked[last] = true;
-            cout << "? " << last + 1 << endl;;
-            vector <int> l(n, -1);
-            vector <int> cnt(n, 0);
-            vector <int> dist(n);
-            for (int j = 0; j < n; j++) {
-                cin >> dist[j];
-                if (!marked[j]) cnt[dist[j]]++;
-                l[dist[j]] = j;
-                if (dist[j] == 1 && !marked[j]) {
-                    found++;
-                    adj[last].push_back (j);
-                }
+    for (int i = 0; i < n; i++) {
+        cin >> dist[i];
+        if (dist[i] == 1) {
+            adj[0].push_back (i);
+        }
+        if (dist[i] > 0) {
+            if (dist[i] % 2 == 1) {
+                oddcnt++;
+            } else {
+                evencnt++;
             }
-            int lastcnt = 1;
-            int p = l[lastcnt];
-            if (cnt[lastcnt] == 1) {
+        }
+    }
+    vector <int> temp(n);
+    if (oddcnt < evencnt) {
+        for (int i = 0; i < n; i++) {
+            if (dist[i] % 2 == 1) {
+                cout << "? " << i + 1 << endl;
                 for (int j = 0; j < n; j++) {
-                    if (dist[j] == lastcnt + 1) {
-                        found++;
-                        adj[p].push_back (j);
-                        marked[p] = true;
+                    cin >> temp[j];
+                    if (temp[j] == 1 && !marked[j]) {
+                        adj[i].push_back (j);
                     }
                 }
-                lastcnt++;
-                p = l[lastcnt];
+                marked[i] = true;
             }
-            mx = 1e9 + 7;
-            for (int j = 0; j < n; j++) {
-                if (cnt[j] < mx) {
-                    mx = cnt[j];
-                    last = l[j] + 1;
+        }
+    } else {
+        for (int i = 0; i < n; i++) {
+            if (dist[i] % 2 == 0 && dist[i] > 0) {
+                cout << "? " << i + 1 << endl;
+                for (int j = 0; j < n; j++) {
+                    cin >> temp[j];
+                    if (temp[j] == 1 && !marked[j]) {
+                        adj[i].push_back (j);
+                    }
                 }
+                marked[i] = true;
             }
         }
     }
     cout << "!" << endl;
     for (int i = 0; i < n; i++) {
-        if ((int)adj[i].size() > 0) {
-            for (int j = 0; j < (int) adj[i].size(); j++) {
-                cout << i + 1 << " " << adj[i][j] + 1 << endl;
-            }
+        for (auto x: adj[i]) {
+            cout << i + 1 << " " << x + 1 << endl;
         }
     }
 }
