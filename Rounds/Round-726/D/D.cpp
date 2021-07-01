@@ -8,20 +8,24 @@ int32_t main() {
     cin >> t;
     while (t--) {
         int n;
-        scanf("%lld\n", &n);
-        bool alice = false;
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                if ((n / i) % 2 == 0) {
-                    alice = true;
-                }
-                break;
-            }
-        }
-        if (alice) {
-            printf("Alice\n");
-        } else {
+        scanf("%lld", &n);
+        if (n & 1) {
             printf("Bob\n");
+        } else {
+            int p = 0;
+            while (n % 2 == 0) {
+                n /= 2;
+                p++;
+            }
+            if (n > 1) {
+                printf("Alice\n");
+            } else {
+                if (p % 2 == 0) {
+                    printf("Alice\n");
+                } else {
+                    printf("Bob\n");
+                }
+            }
         }
     }
 }
