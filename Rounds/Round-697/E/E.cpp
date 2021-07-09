@@ -2,15 +2,8 @@
 using namespace std;
 #define debug(x) cout << #x << " = " << x << endl;
 #define int long long
-const int mod = 1e9+7;
 
-void get_factorial (vector <int>& fact, int n) {
-    for (int i = (int) fact.size(); i <= n; i++) {
-        if (i > 0) fact.push_back(fact[i - 1] * i);
-        else fact.push_back(1);
-        fact[i] %= mod;
-    }
-}
+const int mod = 1e9+7;
 
 int32_t main() {
     int t;
@@ -19,34 +12,41 @@ int32_t main() {
         int n, k;
         scanf("%lld%lld", &n, &k);
         vector <int> a(n);
-        map <int, int> mp;
-        vector <int> factorial;
+
         for (int i = 0; i < n; i++) {
             scanf("%lld", &a[i]);
-            mp[a[i]]++;
         }
-        sort(a.begin(), a.end());
-        int ans = 1;
-        int prev = -1;
-        int pos = n;
-        int smallest = -1;
-        for (int i = n - 1; i >= n - k; i--) {
-            if (a[i] != prev) {
-                smallest = a[i];
-                prev = a[i];
-                pos = i + 1;
+
+        sort (a.begin(), a.end());
+
+        int val = a[n - k];
+        // debug (n - k);
+        int cnt = 0;
+        for (int i = n - k + 1; i < n; i++) {
+            if (a[i] == val) {
+                cnt++;
+            } else {
+                break;
             }
         }
-        int cnt = mp[smallest];
-        if ((int) factorial.size() <= cnt) {
-            get_factorial (factorial, cnt);
+
+        int tot = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == val) tot++;
         }
-        ans *= factorial[cnt];
-        int others = n - pos;
-        int num = k - others;
-        ans /= factorial[num];
-        ans /= factorial[cnt - num];
-        ans %= mod;
+
+        int ans = 1;
+        int calc = tot - cnt;
+
+        debug (tot);
+        // for (int i = 0; i <= cnt && calc > 1; i++) {
+            // ans *= calc--;
+            // ans %= mod;
+        // }
+
+        // calculate tot choose cnt + 1
+
+
         printf("%lld\n", ans);
     }
 }
